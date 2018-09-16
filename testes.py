@@ -1,9 +1,28 @@
-var = 5
+import random
 
-try:
-    integer_result = int(var)
-except ValueError:
-    print("not a valid integer")
+cronossomo = ["02;21;18;03",
+              "10;04;13;14",
+              "12;05;23;08",
+              "20;05;17;01",
+              "10;04;13;14",
+              "20;01;10;06"]
+
+total_genes = 23
+pm = 10
+total_mutacoes = round(total_genes * (pm / 100))
+for i in range(total_mutacoes):
+    posicao_corte = random.randint(0, total_genes)
+    print(posicao_corte)
+    pos_cronossomo = int(posicao_corte / 4)
+    pos_gene = posicao_corte % 4
+    vetor = cronossomo[pos_cronossomo].split(";")
+    print("Mutação no {}º cronossomo".format(pos_cronossomo + 1))
+    vetor = cronossomo[pos_cronossomo].split(";")
+    print("{}º gene".format(pos_gene + 1))
+    vetor[pos_gene] = str(random.randint(0, 30))
+    cronossomo[pos_cronossomo] = vetor[0] + ";" + vetor[1] + ";" + vetor[2] + ";" + vetor[3]
+print("Cronossomo após mutação")
+print(cronossomo)
 
 # ****************************************************
 # cronossomo = ["02;21;18;03", "10;04;13;14", "12;05;23;08", "20;05;17;01", "10;04;13;14", "20;01;10;06"]

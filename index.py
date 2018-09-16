@@ -86,7 +86,7 @@ for inicio in range(n_geracoes):
     print(c)
     '''
     # 6 Crossover
-    print("Crossover:\nValores Aleatórios:")
+    print("\nCrossover:\n\nValores Aleatórios:")
     # Seleção de cronossomos
     r = []
     cs = []  # cronossomos selecionados possui o indice dos cronossomos
@@ -97,9 +97,9 @@ for inicio in range(n_geracoes):
         if r[i] < pc:
             cs.insert(i, i)
 
-    # Dúvida, se tivermos apenas menos de 2 cronossomos selecionados, vai p próxima geração ou gera valores novos ?
+    # Fazer um loop while para repetir o processo inicial até que seja gerado novamente
     if len(cs) <= 1:
-        print("Não possui valores suficientes para gerar crossover, Regerar valores \nOU\nPular geração ?")
+        print("Não possui valores suficientes para gerar crossover, Regerar valores ")
     else:
         print("Cronossomos selecionados Cs: ")
         print(cs)
@@ -126,6 +126,24 @@ for inicio in range(n_geracoes):
         print("Cronossomo após crossover")
         print(novo_cronossomo)
 
-    # 7 Mutação
-    print("O nº da população será o mesmo nas próximas gerações ?")
-    total_genes = 4 * n_populacao
+        # 7 Mutação
+
+        print("\nMutação:\n")
+        total_genes = 4 * n_populacao
+        total_mutacoes = round(total_genes * (pm / 100))
+        print("Total de genes a serem mutados: {}".format(total_mutacoes))
+        for i in range(total_mutacoes):
+            posicao_corte = random.randint(0, total_genes)
+            # print(posicao_corte)
+            pos_cronossomo = int(posicao_corte / 4)
+            pos_gene = posicao_corte % 4
+            vetor = novo_cronossomo[pos_cronossomo].split(";")
+            print("Mutação no {}º cronossomo".format(pos_cronossomo + 1))
+            vetor = novo_cronossomo[pos_cronossomo].split(";")
+            print("{}º gene".format(pos_gene + 1))
+            vetor[pos_gene] = str(random.randint(0, 30))
+            novo_cronossomo[pos_cronossomo] = vetor[0] + ";" + vetor[1] + ";" + vetor[2] + ";" + vetor[3]
+        print("Cronossomo após mutação")
+        print(novo_cronossomo)
+        # cronossomo = novo_cronossomo[:], pois ele será a nova geração
+        # Fazer fit do novo_cronossomo[:]
