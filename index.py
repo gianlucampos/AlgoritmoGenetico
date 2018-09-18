@@ -21,24 +21,28 @@ pm = 10  # taxa mutacao
 
 # 2
 n_populacao = 6  # nº população == nº cronossomos
+cronossomo = []
+novo_cronossomo = []
 try:
     for inicio in range(n_geracoes):
-        cronossomo = []
         fx = []
         fit = []
         total = 0
         i = 0
+        cronossomo.clear()
+        cronossomo = novo_cronossomo[:]
 
         print("\n****************************************")
         print("{}ª geração de cronossomos".format(inicio + 1))
         print("****************************************")
 
         for i in range(n_cronossomos):
-            a = random.randint(0, 30)
-            b = random.randint(0, 30)
-            c = random.randint(0, 30)
-            d = random.randint(0, 30)
-            cronossomo.insert(i, str(a) + ";" + str(b) + ";" + str(c) + ";" + str(d))
+            if len(novo_cronossomo) == 0:
+                a = random.randint(0, 30)
+                b = random.randint(0, 30)
+                c = random.randint(0, 30)
+                d = random.randint(0, 30)
+                cronossomo.insert(i, str(a) + ";" + str(b) + ";" + str(c) + ";" + str(d))
 
             # 3 Executando etapas 4 a 7
 
@@ -56,7 +60,7 @@ try:
             ft = round((1 / (1 + fx[i])), 4)
             fit.insert(i, ft)
             total = round((ft + total), 4)
-
+        novo_cronossomo.clear()
         print("Cronossomos:")
         print(cronossomo)
         print("F(x):")
@@ -106,8 +110,8 @@ try:
             print(cs)
 
         # Determinar posição do crossover
-        novo_cronossomo = cronossomo[:]
         if len(cs) > 1:
+            novo_cronossomo = cronossomo[:]
             print("Cortando a partir do ")
             for i in range(len(cs)):
                 va = random.randint(1, 3)
