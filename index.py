@@ -11,6 +11,7 @@
 # 7-Mutação
 # 8-Resultado final (melhores cronossomos)
 
+import logging
 import random
 
 # 1
@@ -25,89 +26,96 @@ cronossomo = []
 novo_cronossomo = []
 try:
     for inicio in range(n_geracoes):
-        fx = []
-        fit = []
-        total = 0
-        i = 0
-        cronossomo.clear()
-        cronossomo = novo_cronossomo[:]
+        condicao = False
+        while not condicao:
+            fx = []
+            fit = []
+            total = 0
+            i = 0
+            cronossomo.clear()
+            cronossomo = novo_cronossomo[:]
 
-        print("\n****************************************")
-        print("{}ª geração de cronossomos".format(inicio + 1))
-        print("****************************************")
+            print("\n****************************************")
+            print("{}ª geração de cronossomos".format(inicio + 1))
+            print("****************************************")
 
-        for i in range(n_cronossomos):
-            if len(novo_cronossomo) == 0:
-                a = random.randint(0, 30)
-                b = random.randint(0, 30)
-                c = random.randint(0, 30)
-                d = random.randint(0, 30)
-                cronossomo.insert(i, str(a) + ";" + str(b) + ";" + str(c) + ";" + str(d))
+            for i in range(n_cronossomos):
+                if len(novo_cronossomo) == 0:
+                    a = random.randint(0, 30)
+                    b = random.randint(0, 30)
+                    c = random.randint(0, 30)
+                    d = random.randint(0, 30)
+                    cronossomo.insert(i, str(a) + ";" + str(b) + ";" + str(c) + ";" + str(d))
 
-            # 3 Executando etapas 4 a 7
+                # 3 Executando etapas 4 a 7
 
-            # 4 Avaliação
+                # 4 Avaliação
 
-            a, b, c, d = cronossomo[i].split(';')
-            a = int(a)
-            b = int(b)
-            c = int(c)
-            d = int(d)
-            fx.insert(i, abs((a + (2 * b) + (3 * c) + (4 * d)) - 30))
+                a, b, c, d = cronossomo[i].split(';')
+                a = int(a)
+                b = int(b)
+                c = int(c)
+                d = int(d)
+                fx.insert(i, abs((a + (2 * b) + (3 * c) + (4 * d)) - 30))
 
-            # Fitness
+                # Fitness
 
-            ft = round((1 / (1 + fx[i])), 4)
-            fit.insert(i, ft)
-            total = round((ft + total), 4)
-        novo_cronossomo.clear()
-        print("Cronossomos:")
-        print(cronossomo)
-        print("F(x):")
-        print(fx)
-        print("Fitness:")
-        print(fit)
-        print("Total:")
-        print(total)
+                ft = round((1 / (1 + fx[i])), 4)
+                fit.insert(i, ft)
+                total = round((ft + total), 4)
+            # novo_cronossomo.clear()
+            print("Cronossomos:")
+            print(cronossomo)
+            print("F(x):")
+            print(fx)
+            print("Fitness:")
+            print(fit)
+            print("Total:")
+            print(total)
 
-        # 5 Calculando Probabilidade (roulette)
+            # 5 Calculando Probabilidade (roulette)
 
-        p = []
-        for i in range(n_cronossomos):
-            p.insert(i, round((fit[i] / total), 4))
+            p = []
+            for i in range(n_cronossomos):
+                p.insert(i, round((fit[i] / total), 4))
 
-        print("Probabilidade P: ")
-        print(p)
+            print("Probabilidade P: ")
+            print(p)
 
-        ''' Não serve pra nada por isso deixar assim
-        # Probabilidade cumulativa 
-        c = []
-        acumula = 0
-        for i in range(n_cronossomos):
-            acumula += p[i]
-            c.insert(i, round(acumula, 4))
-        
-        print("Probabilidade acumulativa C:")
-        print(c)
-        '''
-        # 6 Crossover
-        print("\nCrossover:\n\nValores Aleatórios:")
-        # Seleção de cronossomos
-        r = []
-        cs = []  # cronossomos selecionados possui o indice dos cronossomos
-        for i in range(n_cronossomos):
-            r.insert(i, round(random.uniform(0, 1), 4))
-            print("R[{}]: {}".format(i, r[i]))
+            ''' Não serve pra nada por isso deixar assim
+            # Probabilidade cumulativa 
+            c = []
+            acumula = 0
+            for i in range(n_cronossomos):
+                acumula += p[i]
+                c.insert(i, round(acumula, 4))
+            
+            print("Probabilidade acumulativa C:")
+            print(c)
+            '''
+            # 6 Crossover
+            print("\nCrossover:\n\nValores Aleatórios:")
+            # Seleção de cronossomos
+            r = []
+            cs = []  # cronossomos selecionados possui o indice dos cronossomos
+            for i in range(n_cronossomos):
+                r.insert(i, round(random.uniform(0, 1), 4))
+                print("R[{}]: {}".format(i, r[i]))
 
-            if r[i] < pc:
-                cs.insert(i, i)
+                if r[i] < pc:
+                    cs.insert(i, i)
 
-        # Fazer um loop while para repetir o processo inicial até que seja gerado novamente
-        if len(cs) <= 1:
-            print("Não possui valores suficientes para gerar crossover, Regerar valores ")
-        else:
-            print("Cronossomos selecionados Cs: ")
-            print(cs)
+            # Fazer um loop while para repetir o processo inicial até que seja gerado novamente
+            if len(cs) <= 1:
+                print("Não possui valores suficientes para gerar crossover")
+                print("\n****************************************")
+                print("Recriando Geração")
+                # print("******************************************")
+            else:
+                condicao = True
+                print("Cronossomos selecionados Cs: ")
+                print(cs)
+                novo_cronossomo.clear()
 
         # Determinar posição do crossover
         if len(cs) > 1:
@@ -161,8 +169,9 @@ try:
                 nova_fx.insert(i, abs((a + (2 * b) + (3 * c) + (4 * d)) - 30))
             print("Nova F(x):")
             print(nova_fx)
-except Exception:
+except Exception as ex:
     print("\n" * 100)
-    print("\n*************************************")
-    print("FERROU JAMELAO, TENTE NOVAMENTE -\o/-")
-    print("*************************************")
+    print("\n*****************************************************")
+    print("NÃO FOI POSSÍVEL GERAR VALORES, TENTE NOVAMENTE -\o/-")
+    # logging.exception("message")
+    print("*****************************************************")

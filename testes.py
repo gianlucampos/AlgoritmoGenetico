@@ -1,5 +1,7 @@
-cronossomo = []
-print(len(cronossomo) == 0)
+for i in range(5):
+    print(i)
+    if i == 0:
+        print("ola")
 
 # ****************************************************
 # Mutação
