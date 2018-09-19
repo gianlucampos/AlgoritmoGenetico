@@ -1,8 +1,15 @@
-for i in range(5):
-    print(i)
-    if i == 0:
-        print("ola")
-
+# 27;20;28;24
+# a = 7
+# b = 2 * 5
+# c = 3 * 3
+# d = 4 * 1
+a = int(input("A: "))
+b = 2 * int(input("B: "))
+c = 3 * int(input("C: "))
+d = 4 * int(input("D: "))
+valor = abs((a + b + c + d) - 30)
+print(valor)
+print(1 / (1 + valor))
 # ****************************************************
 # Mutação
 #

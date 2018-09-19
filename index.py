@@ -14,14 +14,17 @@
 import logging
 import random
 
-# 1
-n_cronossomos = 6
-n_geracoes = 4
-pc = 0.25  # taxa crossover
+# 1 e # 2
+n_cronossomos = 5
+n_geracoes = 50
+pc = 25  # taxa crossover
 pm = 10  # taxa mutacao
 
-# 2
-n_populacao = 6  # nº população == nº cronossomos
+# n_cronossomos = int(input("Nº da população: "))
+# n_geracoes = int(input("Nº de gerações: "))
+# pc = float(input("Taxa de crossover: "))
+# pm = float(input("Taxa de mutação: "))
+
 cronossomo = []
 novo_cronossomo = []
 try:
@@ -53,10 +56,11 @@ try:
 
                 a, b, c, d = cronossomo[i].split(';')
                 a = int(a)
-                b = int(b)
-                c = int(c)
-                d = int(d)
-                fx.insert(i, abs((a + (2 * b) + (3 * c) + (4 * d)) - 30))
+                b = int(b) * 2
+                c = int(c) * 3
+                d = int(d) * 4
+                # fx.insert(i, abs((a + (2 * b) + (3 * c) + (4 * d)) - 30))
+                fx.insert(i, abs((a + b + c + d) - 30))
 
                 # Fitness
 
@@ -82,17 +86,17 @@ try:
             print("Probabilidade P: ")
             print(p)
 
-            ''' Não serve pra nada por isso deixar assim
-            # Probabilidade cumulativa 
+            # Não serve pra nada por isso deixar assim
+            # Probabilidade cumulativa
             c = []
             acumula = 0
             for i in range(n_cronossomos):
                 acumula += p[i]
                 c.insert(i, round(acumula, 4))
-            
+
             print("Probabilidade acumulativa C:")
             print(c)
-            '''
+
             # 6 Crossover
             print("\nCrossover:\n\nValores Aleatórios:")
             # Seleção de cronossomos
@@ -102,7 +106,7 @@ try:
                 r.insert(i, round(random.uniform(0, 1), 4))
                 print("R[{}]: {}".format(i, r[i]))
 
-                if r[i] < pc:
+                if r[i] < (pc / 100):
                     cs.insert(i, i)
 
             # Fazer um loop while para repetir o processo inicial até que seja gerado novamente
@@ -142,12 +146,12 @@ try:
             # 7 Mutação
 
             print("\nMutação:\n")
-            total_genes = 4 * n_populacao
+            total_genes = 4 * n_cronossomos
             total_mutacoes = round(total_genes * (pm / 100))
             print("Total de genes a serem mutados: {}".format(total_mutacoes))
             for i in range(total_mutacoes):
                 posicao_corte = random.randint(0, total_genes)
-                pos_cronossomo = int(posicao_corte / 4)
+                pos_cronossomo = int(posicao_corte / 4) - 1
                 pos_gene = posicao_corte % 4
                 vetor = novo_cronossomo[pos_cronossomo].split(";")
                 print("Mutação no {}º cronossomo".format(pos_cronossomo + 1))
@@ -173,5 +177,5 @@ except Exception as ex:
     print("\n" * 100)
     print("\n*****************************************************")
     print("NÃO FOI POSSÍVEL GERAR VALORES, TENTE NOVAMENTE -\o/-")
-    # logging.exception("message")
+    logging.exception("message")
     print("*****************************************************")
